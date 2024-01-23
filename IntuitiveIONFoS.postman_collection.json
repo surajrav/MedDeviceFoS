@@ -1,0 +1,118 @@
+{
+	"info": {
+		"_postman_id": "f7a48272-4b09-4d94-95c8-29d0a4ea2c3b",
+		"name": "IntuitiveIONFoS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7804714"
+	},
+	"item": [
+		{
+			"name": "Create Patient",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"Diane\",\n    \"last_name\": \"Simmons\",\n    \"date_of_birth\": \"1980-08-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/api/v1/patients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"v1",
+						"patients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Patients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/v1/patients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"v1",
+						"patients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Image",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "img_timestamp",
+							"value": "2021-03-10T00:00:00",
+							"description": "Timestamp of when image was taken (suffix with zeros if only date is available)",
+							"type": "text"
+						},
+						{
+							"key": "uploaded_img_file",
+							"description": "Patient Medical Image File (use your local path)",
+							"type": "file",
+							"src": "/Users/surajravi/Documents/code_projects/intuitive_fos/backend/app/img_dataset/4.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/api/v1/patients/97c2e676-b271-4cde-9f54-1fe1f9a1a037",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"v1",
+						"patients",
+						"97c2e676-b271-4cde-9f54-1fe1f9a1a037"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Patient Data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/v1/patients/97c2e676-b271-4cde-9f54-1fe1f9a1a037",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"v1",
+						"patients",
+						"97c2e676-b271-4cde-9f54-1fe1f9a1a037"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -47,3 +47,12 @@ Mongodb Access: `mongodb://dev_user:dev_pass@localhost:27017/ion"`
 
 Minio Object Storage UI Access: `http://localhost:9001`
 (username: dev_user, pass: dev_pass)
+
+## Postman
+
+If you're able to download Postman, you can import the collection[a relative link](IntuitiveIONFoS.postman_collection.json) provided within this git repo
+to perform the API calls.
+
+Note: For the Patients Update (PUT) endpoint, please provide the correct link to the image file in the form data field prior to making the call.
+
+
