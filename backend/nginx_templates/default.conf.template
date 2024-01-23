@@ -26,8 +26,8 @@ server {
 
     root   /usr/share/nginx/html;
 
-    location /images {
-		proxy_pass http://minio/;
+    location /${PATIENT_IMG_BUCKET} {
+    	proxy_pass http://minio;
 	}
 
     location ${API_PREFIX_PATH} {

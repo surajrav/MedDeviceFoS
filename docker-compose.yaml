@@ -53,5 +53,6 @@ services:
       - API_PREFIX_PATH=/api/v1
       - MINIO_HOST=minio
       - MINIO_PORT=9000
+      - PATIENT_IMG_BUCKET=patient-images
     depends_on:
       - api
