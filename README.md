@@ -53,6 +53,8 @@ Minio Object Storage UI Access: `http://localhost:9001`
 If you're able to download Postman, you can import the [collection](IntuitiveIONFoS.postman_collection.json) provided within this git repo
 to perform the API calls.
 
-Note: For the Patients Update (PUT) endpoint, please provide the correct link to the image file in the form data field prior to making the call.
+Note: for postman collection you will need to heed the following conventions:
+- For the singular Patient GET and the Update (PUT) endpoints you will need to update the endpoint location with the correct UUID in the url
+- For the Patients Update (PUT) endpoint, please provide the correct link to the image file in the form data field prior to making the call.
 
 
