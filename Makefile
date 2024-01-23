@@ -9,4 +9,4 @@ dev:
 # Delete all local containers, local volumes, and minio persistent data storage
 clean:
 	docker compose rm --volumes --stop --force
-	rm -rf -- ..?* .[!.]* ./backend/minio_container_data_persistence/*
+	cd ./backend/minio_container_data_persistence && rm -rf -- ..?* .[!.]* ./*
