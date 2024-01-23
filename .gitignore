@@ -1,0 +1,6 @@
+.idea/**
+env/**
+venv/**
+backend/minio_container_data_persistence
+**/__pycache__/
+__pycache__

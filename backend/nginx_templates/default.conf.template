@@ -1,0 +1,53 @@
+# taken from https://marcofranssen.nl/nginx-1-19-supports-environment-variables-and-templates-in-docker
+
+upstream api {
+    server ${API_HOST}:${API_PORT};
+}
+
+upstream minio {
+	server ${MINIO_HOST}:${MINIO_PORT};
+}
+
+server {
+    listen            ${NGINX_PORT};
+    listen       [::]:${NGINX_PORT};
+    server_name  ${NGINX_HOST};
+
+    gzip on;
+    gzip_disable "msie6";
+
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.1;
+    gzip_min_length 0;
+    gzip_types text/plain application/javascript text/css text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype;
+
+    root   /usr/share/nginx/html;
+
+    location /images {
+		proxy_pass http://minio/;
+	}
+
+    location ${API_PREFIX_PATH} {
+    	rewrite ^${API_PREFIX_PATH}(.*) $1 break;
+        proxy_pass http://api;
+    }
+
+    location / {
+        index  index.html index.htm;
+        expires -1;
+        try_files $uri $uri/ /index.html;
+    }
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+}
