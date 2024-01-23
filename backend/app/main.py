@@ -101,12 +101,10 @@ async def get_patient(
     :return:
     """
     # Note: First time using the walrus operator for me (Syntactic Sugar FTW!)
-    if (patient := await app.mongodb.patients.find_one({"_id": uuid.UUID(patient_id)})) is not None:
-        patient["images"] = utils.get_patient_images(app.s3_boto, patient_id)
-        patient["date_of_birth"] = patient["date_of_birth"].date()
+    if (patient := await utils.get_patient_entity(app.mongodb, app.s3_boto, patient_id)) is not None:
         return patient
-
-    raise HTTPException(status_code=404, detail=f"Patient {patient_id} not found")
+    else:
+        raise HTTPException(status_code=404, detail=f"Patient {patient_id} not found")
 
 
 @app.get(
@@ -162,11 +160,14 @@ async def update_patient(
             app.s3_boto.upload_fileobj(
                 uploaded_img_file.file, os.environ["PATIENT_IMG_BUCKET"], f"{patient_id}/{img_timestamp}{file_type_suffix}"
             )
+            patient["images"] = utils.get_patient_images(app.s3_boto, patient_id)
+            patient["date_of_birth"] = patient["date_of_birth"].date()
+            return patient
         except ClientError as e:
             raise HTTPException(status_code=500, detail=f"Object storage upload error: {e.response['Error']['Message']}")
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
         finally:
             uploaded_img_file.file.close()
-
-    raise HTTPException(status_code=404, detail=f"Patient {patient_id} not found")
+    else:
+        raise HTTPException(status_code=404, detail=f"Patient {patient_id} not found")
