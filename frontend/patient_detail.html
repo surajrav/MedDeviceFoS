@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ION Portal | Intuitive</title>
+</head>
+<body>
+    Patient Information<br><br>
+
+    <div id="patientContainer">
+        <br>
+        <span id="patientName"></span>
+        <br>
+        <span id="patientDob"></span>
+        <br>
+        Medical Images (if available)
+        <br><br>
+    </div>
+
+    <script>
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        });
+        let patient_id = params.id;
+
+        fetch(`${window.location.origin}/api/v1/patients/${patient_id}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Backend API response was not ok');
+                }
+                return response.json();
+            })
+            .then(patientData => {
+                var patientContainer = document.getElementById("patientContainer");
+                var patientName = document.getElementById("patientName");
+                var patientDob = document.getElementById("patientDob");
+                patientName.innerText = "Name: " + patientData.first_name + " " + patientData.last_name;
+                patientDob.innerText = "Date of Birth: " + patientData.date_of_birth;
+                patientData.images.forEach((item) => {
+                    let img = new Image();
+                    img.width = 300;
+                    img.height = 300;
+                    img.src= `${window.location.origin}/${item.img_uri}`;
+                    patientContainer.appendChild(img);
+                    let br1 = document.createElement("br");
+                    let br2 = document.createElement("br");
+                    let br3 = document.createElement("br");
+                    let img_ts = document.createElement("span");
+                    img_ts.innerText = "Image Timestamp: " + item.img_timestamp;
+                    patientContainer.appendChild(br1);
+                    patientContainer.appendChild(img_ts);
+                    patientContainer.appendChild(br2);
+                    patientContainer.appendChild(br3);
+                })
+            })
+            .catch((err) => {
+                console.log(`Error fetching: ${err}`)
+            });
+    </script>
+</body>
+</html>
