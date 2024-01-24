@@ -12,7 +12,7 @@ from typing import Annotated, Union
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.server_api import ServerApi
 from fastapi import FastAPI, Path, File, Form, UploadFile, HTTPException
-from . import utils, models
+from . import utils, models, fixtures
 
 
 # before we initiate the FastAPI app ensure that we have all the required environment (mongodb info, minio, etc)
@@ -27,7 +27,7 @@ utils.collect_parameters([
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
-    Establish the mongodb connection on FastAPI app startup
+    Startup and shutdown operations
     """
     # Operations to perform prior to whence the app starts taking requests
 
@@ -43,6 +43,8 @@ async def lifespan(app: FastAPI):
         aws_secret_access_key=os.environ["MINIO_SERVER_SECRET_KEY"]
     )
 
+    # Populate with initial data if db empty
+    await fixtures.populate_fixtures(app.mongodb, app.s3_boto)
     # This yields execution back to the FastAPI which starts taking requests
     yield
 
@@ -97,8 +99,6 @@ async def get_patient(
     then use the value specified via the `img_uri` by suffixing to the above base url as follows:
     http://localhost/{img_uri}
 
-    :param patient_id:
-    :return:
     """
     # Note: First time using the walrus operator for me (Syntactic Sugar FTW!)
     if (patient := await utils.get_patient_entity(app.mongodb, app.s3_boto, patient_id)) is not None:
