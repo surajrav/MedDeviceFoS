@@ -35,7 +35,6 @@ services:
     environment:
       - MINIO_ROOT_USER=dev_user
       - MINIO_ROOT_PASSWORD=dev_pass
-      - MINIO_DEFAULT_BUCKETS=patient-images
     volumes:
       - ./backend/minio_container_data_persistence:/bitnami/minio/data
   web:
