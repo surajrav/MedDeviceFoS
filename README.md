@@ -21,6 +21,11 @@ docker compose up --build
 
 Note: Hit `Ctrl+C` on this running process to stop
 
+## Run Test
+
+```
+make test
+```
 
 ## Delete/Clean up
 

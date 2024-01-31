@@ -13,6 +13,8 @@ services:
       - DB_HOST=mongodb
       - DB_USER=dev_user
       - DB_PASS=dev_pass
+      - TEST_DB_NAME=test
+      - TEST_PATIENT_IMG_BUCKET=test-patient-images
     ports:
       - 8080:80
     depends_on:
@@ -53,5 +55,6 @@ services:
       - MINIO_HOST=minio
       - MINIO_PORT=9000
       - PATIENT_IMG_BUCKET=patient-images
+      - TEST_PATIENT_IMG_BUCKET=test-patient-images
     depends_on:
       - api

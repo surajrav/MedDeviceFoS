@@ -6,6 +6,9 @@
 dev:
 	docker-compose up --build
 
+test:
+	docker-compose run api bash -c 'cd app && ./minio_init.sh && pytest -vv --capture=sys'
+
 # Delete all local containers, local volumes, and minio persistent data storage
 clean:
 	docker compose rm --volumes --stop --force

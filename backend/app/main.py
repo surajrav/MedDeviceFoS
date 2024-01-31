@@ -9,8 +9,6 @@ import boto3
 from contextlib import asynccontextmanager
 from botocore.exceptions import ClientError
 from typing import Annotated, Union
-from motor.motor_asyncio import AsyncIOMotorClient
-from pymongo.server_api import ServerApi
 from fastapi import FastAPI, Path, File, Form, UploadFile, HTTPException
 from . import utils, models, fixtures
 
@@ -32,9 +30,7 @@ async def lifespan(app: FastAPI):
     # Operations to perform prior to whence the app starts taking requests
 
     # Motor (mongo's async python client) setup
-    mongo_uri = f"mongodb://{os.environ['DB_USER']}:{os.environ['DB_PASS']}@{os.environ['DB_HOST']}:27017/{os.environ['DB_NAME']}"
-    app.mongodb_client = AsyncIOMotorClient(mongo_uri, server_api=ServerApi('1'), uuidRepresentation="standard")
-    app.mongodb = app.mongodb_client[os.environ['DB_NAME']]
+    app.mongodb_client, app.mongodb = await utils.get_mongodb_connection()
 
     # object storage boto3 client setup
     app.s3_boto = boto3.client('s3',
@@ -45,6 +41,7 @@ async def lifespan(app: FastAPI):
 
     # Populate with initial data if db empty
     await fixtures.populate_fixtures(app.mongodb, app.s3_boto)
+
     # This yields execution back to the FastAPI which starts taking requests
     yield
 
