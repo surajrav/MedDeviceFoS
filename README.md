@@ -1,6 +1,8 @@
 # MedDeviceFoS
 Feat. of Strength for Medical Device Company Software Developer
 
+## Architectural Overview
+![Alt Architecutral Diagram](MedDeviceFoSDiagram.png?raw=true Title=Design Overview)
 ## Requirements/Dependencies
 - Git
 - Docker with Docker Compose
