@@ -2,7 +2,10 @@
 Feat. of Strength for Medical Device Company Software Developer
 
 ## Architectural Overview
-![Alt Architecutral Diagram](./MedDeviceFoSDiagram.png)
+![Alt Architectural Diagram](./MedDeviceFoSDiagram.png)
+
+![Alt GET DETAIL API FLOW DIAGRAM](./MedDeviceFoSAPIFlow.png)
+
 ## Requirements/Dependencies
 - Git
 - Docker with Docker Compose
